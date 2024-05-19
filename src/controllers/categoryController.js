@@ -1,22 +1,22 @@
 const { StatusCodes, ReasonPhrases } = require('http-status-codes');
 
-const ProductService = require('../services/productService');
-const FakeStoreRepository = require('../repositories/fakeStorerepository');
+const CategoryService = require('../services/categoryService');
+const CategoryRepository = require('../repositories/categoryRepository');
 
-const productService = new ProductService(new FakeStoreRepository());
+const categoryService = new CategoryService(new CategoryRepository());
 
-async function createProduct(req, res) {
+async function createCategory(req, res) {
 
     try {
         
-        const response = await productService.createProduct(req.body);
+        const response = await categoryService.createCategory(req.body);
     
         return res
                 .status(StatusCodes.CREATED)
                 .json({
                     sucess: true,
                     error: {},
-                    message: ReasonPhrases.CREATED + " Product",
+                    message: ReasonPhrases.CREATED + " Category",
                     data: response
         });
 
@@ -26,41 +26,52 @@ async function createProduct(req, res) {
 
 }
 
-async function getProducts(req, res) {
+async function getAllCategories(req, res) {
+
     try {
-        const response = await productService.getProducts();
+        
+        const response = await categoryService.getAllCategories();
+    
         return res
                 .status(StatusCodes.OK)
                 .json({
                     sucess: true,
                     error: {},
-                    message: "Successfully fetched the Products",
+                    message: "Successfully fetched Categories",
                     data: response
         });
+
     } catch(error) {
         console.log("Something went wrong", error);
     }
+
 }
 
 
-async function getProduct(req, res) { // /api/v1/products/2
+async function getCategory(req, res) {
+
     try {
-        const response = await productService.getProduct(req.params.id);
+        
+        const response = await categoryService.getCategory(req.params.id);
+    
         return res
                 .status(StatusCodes.OK)
                 .json({
                     sucess: true,
                     error: {},
-                    message: "Successfully fetched the Product",
+                    message: "Successfully fetched Category",
                     data: response
         });
+
     } catch(error) {
         console.log("Something went wrong", error);
     }
+
 }
+
 
 module.exports = {
-    createProduct,
-    getProducts,
-    getProduct
+    getCategory,
+    createCategory,
+    getAllCategories
 }
